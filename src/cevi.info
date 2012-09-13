@@ -1,0 +1,18 @@
+[
+{
+  "modid" : "mod_cevi",
+  "name" : "CEVICRAFT",
+  "version" : "1.0",
+  "url" : "",
+  "credits" : "Mod by ceb and jeb",
+  "authors": [
+    "CEvi productions"
+  ],
+  "description": "",
+  "logoFile" : "/.png",
+  "updateUrl" : "",
+  "parent" : "",
+  "screenshots": [
+  ]
+}
+]

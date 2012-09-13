@@ -1,10 +1,10 @@
 [
 {
-  "modid" : "mod_cevi",
+  "modid" : "cevicraft",
   "name" : "CEVICRAFT",
-  "version" : "1.0",
+  "version" : "1.0 alpha",
   "url" : "",
-  "credits" : "Mod by ceb and jeb",
+  "credits" : "Mod by ceb(code and textures) and jeb(some textures)",
   "authors": [
     "CEvi productions"
   ],

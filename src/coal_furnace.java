@@ -1,173 +1,293 @@
 package cevicraft;
 
-import java.util.*;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
+import java.util.Random;
 import net.minecraft.src.*;
 
 public class coal_furnace extends BlockContainer
 {
-	private static boolean keepInventory = false;
-	private Random furnaceRand;
+    /**
+     * Is the random generator used by furnace to drop the inventory contents in random directions.
+     */
+    private Random furnaceRand = new Random();
 
+    /** True if this is an active furnace, false if idle */
+    private final boolean isActive;
 
-    protected coal_furnace(int x, boolean active)
+    /**
+     * This flag is used to prevent the furnace inventory to be dropped upon block removal, is used internally when the
+     * furnace block changes from idle to active and vice-versa.
+     */
+    private static boolean keepFurnaceInventory = false;
+
+    protected coal_furnace(int par1, boolean par3)
     {
-    	super(x, Material.rock);
-    	furnaceRand = new Random();
-    	this.setRequiresSelfNotify();
-    	this.setCreativeTab(CreativeTabs.tabDeco);
+        super(par1, Material.rock);
+        this.isActive = par3;
+        //this.blockIndexInTexture = par2;
     }
 
-    public TileEntity createNewTileEntity(World world)
+    /**
+     * Returns the ID of the items to drop on destruction.
+     */
+    public int idDropped(int par1, Random par2Random, int par3)
     {
-    	return new TileEntityCoalFurnace();
+        return CommonProxy.b_coal_furnace.blockID;
     }
 
+    /**
+     * Called whenever the block is added into the world. Args: world, x, y, z
+     */
     public void onBlockAdded(World par1World, int par2, int par3, int par4)
     {
-   	 super.onBlockAdded(par1World, par2, par3, par4);
-   	 setDefaultDirection(par1World, par2, par3, par4);
-   }
+        super.onBlockAdded(par1World, par2, par3, par4);
+        this.setDefaultDirection(par1World, par2, par3, par4);
+    }
 
+    /**
+     * set a blocks direction
+     */
     private void setDefaultDirection(World par1World, int par2, int par3, int par4)
     {
-    	TileEntity blockEntity = par1World.getBlockTileEntity(par2, par3, par4);
-    	if(par1World.isRemote)
-    	{
-    		return;
-    	}
-    	
-    	int i = par1World.getBlockId(par2, par3, par4 - 1);
-    	int j = par1World.getBlockId(par2, par3, par4 + 1);
-    	int k = par1World.getBlockId(par2 - 1, par3, par4);
-    	int l = par1World.getBlockId(par2 + 1, par3, par4);
-    	byte byte0 = 3;
-    	
-    	if(Block.opaqueCubeLookup[i] && !Block.opaqueCubeLookup[j])
-    	{
-    		byte0 = 3;
-    	}
-    	if(Block.opaqueCubeLookup[j] && !Block.opaqueCubeLookup[i])
-    	{
-    		byte0 = 2;
-    	}
-    	if(Block.opaqueCubeLookup[k] && !Block.opaqueCubeLookup[l])
-    	{
-    		byte0 = 5;
-    	}
-    	if(Block.opaqueCubeLookup[l] && !Block.opaqueCubeLookup[k])
-    	{
-    		byte0 = 4;
-    	}
-    	((TileEntityCoalFurnace)blockEntity).setFrontDirection(byte0);
+        if (!par1World.isRemote)
+        {
+            int var5 = par1World.getBlockId(par2, par3, par4 - 1);
+            int var6 = par1World.getBlockId(par2, par3, par4 + 1);
+            int var7 = par1World.getBlockId(par2 - 1, par3, par4);
+            int var8 = par1World.getBlockId(par2 + 1, par3, par4);
+            byte var9 = 3;
+
+            if (Block.opaqueCubeLookup[var5] && !Block.opaqueCubeLookup[var6])
+            {
+                var9 = 3;
+            }
+
+            if (Block.opaqueCubeLookup[var6] && !Block.opaqueCubeLookup[var5])
+            {
+                var9 = 2;
+            }
+
+            if (Block.opaqueCubeLookup[var7] && !Block.opaqueCubeLookup[var8])
+            {
+                var9 = 5;
+            }
+
+            if (Block.opaqueCubeLookup[var8] && !Block.opaqueCubeLookup[var7])
+            {
+                var9 = 4;
+            }
+
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, var9);
+        }
     }
 
-    public int getBlockTexture(IBlockAccess access, int x, int y, int z, int side)
+    @SideOnly(Side.CLIENT)
+
+    /**
+     * Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z, side
+     */
+    public int getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
     {
-    	int front = 0;
-    	
-    	TileEntity tile = ModLoader.getMinecraftInstance().getIntegratedServer().theWorldServer[0].getBlockTileEntity(x, y, z);
-    	
-    	if(tile != null)
-    	{
-    		front = ((TileEntityCoalFurnace)tile).getFrontDirection();
-    	}
-    	else
-    	{
-    		ModLoader.getMinecraftInstance().getIntegratedServer().theWorldServer[0].markBlockAsNeedsUpdate(x, y, z);
-    	}
-    	switch(side)
-    	{
-    	case 0: return 0/*bottom*/;
-    	case 1: return 1/*top*/;
-    	default: if(side == front)
-	    	{
-	    		return /**front**/ 1;
-	    	}
-	    	else
-	    	{
-	    		return /**side**/ 1;
-	    	}
-    	}
+        if (par5 == 1)
+        {
+            return this.blockIndexInTexture + 17;
+        }
+        else if (par5 == 0)
+        {
+            return this.blockIndexInTexture + 17;
+        }
+        else
+        {
+            int var6 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+            return par5 != var6 ? this.blockIndexInTexture : (this.isActive ? this.blockIndexInTexture + 16 : this.blockIndexInTexture - 1);
+        }
     }
 
-    public int getBlockTextureFromSide(int side)
+    @SideOnly(Side.CLIENT)
+
+    /**
+     * A randomly called display update to be able to add particles or other items for display
+     */
+    public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-    	switch(side)
-    	{
-    	default: return 0 ;
-    	case 0: return 0 /**bottom**/;
-    	case 1: return 0 /**top**/;
-    	case 2: return 0 /**side**/;
-    	case 3: return 0 /**front**/;
-    	case 4: return 0 /**side**/;
-    	case 5: return 0 /**side**/;
-    	}
+        if (this.isActive)
+        {
+            int var6 = par1World.getBlockMetadata(par2, par3, par4);
+            float var7 = (float)par2 + 0.5F;
+            float var8 = (float)par3 + 0.0F + par5Random.nextFloat() * 6.0F / 16.0F;
+            float var9 = (float)par4 + 0.5F;
+            float var10 = 0.52F;
+            float var11 = par5Random.nextFloat() * 0.6F - 0.3F;
+
+            if (var6 == 4)
+            {
+                par1World.spawnParticle("smoke", (double)(var7 - var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("flame", (double)(var7 - var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
+            }
+            else if (var6 == 5)
+            {
+                par1World.spawnParticle("smoke", (double)(var7 + var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("flame", (double)(var7 + var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
+            }
+            else if (var6 == 2)
+            {
+                par1World.spawnParticle("smoke", (double)(var7 + var11), (double)var8, (double)(var9 - var10), 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("flame", (double)(var7 + var11), (double)var8, (double)(var9 - var10), 0.0D, 0.0D, 0.0D);
+            }
+            else if (var6 == 3)
+            {
+                par1World.spawnParticle("smoke", (double)(var7 + var11), (double)var8, (double)(var9 + var10), 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("flame", (double)(var7 + var11), (double)var8, (double)(var9 + var10), 0.0D, 0.0D, 0.0D);
+            }
+        }
+    }
+
+    /**
+     * Returns the block texture based on the side being looked at.  Args: side
+     */
+    public int getBlockTextureFromSide(int par1)
+    {
+        return par1 == 1 ? this.blockIndexInTexture + 17 : (par1 == 0 ? this.blockIndexInTexture + 17 : (par1 == 3 ? this.blockIndexInTexture - 1 : this.blockIndexInTexture));
+    }
+
+    /**
+     * Called upon block activation (right click on the block.)
+     */
+    public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+    {
+    	if (par1World.isRemote)
+        {
+            return true;
+        }
+        else
+        {
+            TileEntity blockEntity = (TileEntity)par1World.getBlockTileEntity(x, y, z);
+
+            if (blockEntity != null)
+            {
+            	
+            	if(blockEntity instanceof TileEntityCoalFurnace)
+            	{
+            	TileEntity var6 = (TileEntityCoalFurnace)par1World.getBlockTileEntity(x, y, z);
+            	par5EntityPlayer.openGui(mod_cevi.instance, 164, par1World, x, y, z);
+            	}
+            }
+
+            return true;
+        }
     }
 
     @Override
-    public void onBlockPlacedBy(World w, int x, int y, int z, EntityLiving entity)
+    public TileEntity createNewTileEntity(World var1,int meta)
     {
-		int var = MathHelper.floor_double((double)(entity.rotationYaw *4.0F / 360.0F) + 0.5D) & 3;
-		
-		TileEntity blockEntity = (TileEntity) w.getBlockTileEntity(x, y, z);
-		switch(var)
-		{
-		case 0: ((TileEntityCoalFurnace)blockEntity).setFrontDirection(2); break;
-		case 1: ((TileEntityCoalFurnace)blockEntity).setFrontDirection(5); break;
-		case 2: ((TileEntityCoalFurnace)blockEntity).setFrontDirection(3); break;
-		case 3: ((TileEntityCoalFurnace)blockEntity).setFrontDirection(4); break;	
-		}
+        switch(meta)
+        {  
+        case 0: return new TileEntityCoalFurnace();
+        }
+		return null;
     }
 
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float a, float b, float c)
+    /**
+     * Update which block ID the furnace is using depending on whether or not it is burning
+     */
+    public static void updateFurnaceBlockState(boolean par0, World par1World, int par2, int par3, int par4)
     {
-    	TileEntityCoalFurnace coal = (TileEntityCoalFurnace)world.getBlockTileEntity(x, y, z);
+        int var5 = par1World.getBlockMetadata(par2, par3, par4);
+        TileEntity var6 = par1World.getBlockTileEntity(par2, par3, par4);
+        keepFurnaceInventory = true;
 
-	    if(player instanceof EntityPlayerMP)
-	    {
-	    ModLoader.serverOpenWindow((EntityPlayerMP)player, new ContainerCoalFurnace(player.inventory,coal), CommonProxy.CoalFurnaceGUIid, x, y, z);
-	    }
-	    else
-	    {
-	    ModLoader.openGUI((EntityPlayerSP)player, new GuiCoalFurnace(player.inventory, (TileEntityCoalFurnace)player.worldObj.getBlockTileEntity(x, y, z)));
-	    }
-	    return true;
+        if (par0)
+        {
+            par1World.setBlockWithNotify(par2, par3, par4, Block.stoneOvenActive.blockID);
+        }
+        else
+        {
+            par1World.setBlockWithNotify(par2, par3, par4, Block.stoneOvenIdle.blockID);
+        }
+
+        keepFurnaceInventory = false;
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, var5);
+
+        if (var6 != null)
+        {
+            var6.validate();
+            par1World.setBlockTileEntity(par2, par3, par4, var6);
+        }
     }
 
+    /**
+     * each class overrdies this to return a new <className>
+     */
+    public TileEntity createNewTileEntity(World par1World)
+    {
+        return new TileEntityFurnace();
+    }
+
+    /**
+     * Called when the block is placed in the world.
+     */
+    public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving)
+    {
+        int var6 = MathHelper.floor_double((double)(par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+        if (var6 == 0)
+        {
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 2);
+        }
+
+        if (var6 == 1)
+        {
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 5);
+        }
+
+        if (var6 == 2)
+        {
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 3);
+        }
+
+        if (var6 == 3)
+        {
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 4);
+        }
+    }
+
+    /**
+     * ejects contained items into the world, and notifies neighbours of an update, as appropriate
+     */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        if (!keepInventory)
+        if (!keepFurnaceInventory)
         {
-            TileEntityCoalFurnace coal = (TileEntityCoalFurnace)par1World.getBlockTileEntity(par2, par3, par4);
+            TileEntityFurnace var7 = (TileEntityFurnace)par1World.getBlockTileEntity(par2, par3, par4);
 
-            if (coal != null)
+            if (var7 != null)
             {
-                for (int var8 = 0; var8 < coal.getSizeInventory(); ++var8)
+                for (int var8 = 0; var8 < var7.getSizeInventory(); ++var8)
                 {
-                    ItemStack item = coal.getStackInSlot(var8);
+                    ItemStack var9 = var7.getStackInSlot(var8);
 
-                    if (item != null)
+                    if (var9 != null)
                     {
                         float var10 = this.furnaceRand.nextFloat() * 0.8F + 0.1F;
                         float var11 = this.furnaceRand.nextFloat() * 0.8F + 0.1F;
                         float var12 = this.furnaceRand.nextFloat() * 0.8F + 0.1F;
 
-                        while (item.stackSize > 0)
+                        while (var9.stackSize > 0)
                         {
                             int var13 = this.furnaceRand.nextInt(21) + 10;
 
-                            if (var13 > item.stackSize)
+                            if (var13 > var9.stackSize)
                             {
-                                var13 = item.stackSize;
+                                var13 = var9.stackSize;
                             }
 
-                            item.stackSize -= var13;
-                            EntityItem var14 = new EntityItem(par1World, (double)((float)par2 + var10), (double)((float)par3 + var11), (double)((float)par4 + var12), new ItemStack(item.itemID, var13, item.getItemDamage()));
+                            var9.stackSize -= var13;
+                            EntityItem var14 = new EntityItem(par1World, (double)((float)par2 + var10), (double)((float)par3 + var11), (double)((float)par4 + var12), new ItemStack(var9.itemID, var13, var9.getItemDamage()));
 
-                            if (item.hasTagCompound())
+                            if (var9.hasTagCompound())
                             {
-                                var14.item.setTagCompound((NBTTagCompound)item.getTagCompound().copy());
+                                var14.item.setTagCompound((NBTTagCompound)var9.getTagCompound().copy());
                             }
 
                             float var15 = 0.05F;

@@ -39,22 +39,22 @@ public class ClientProxy extends CommonProxy
 				LanguageRegistry.addName(CommonProxy.i_plutonio, "Plutonio");
 				LanguageRegistry.addName(CommonProxy.i_part_of_the_wand_of_the_golem, "Part of the wand of the golem");
 				LanguageRegistry.addName(CommonProxy.i_part_of_the_wand_of_the_giant, "Part of the wand of the giant");
-				/*LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 0), "Marble white");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 1), "Marble orange");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 2), "Marble magenta");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 3), "Marble light_blue");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 4), "Marble yellow");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 5), "Marble lime");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 6), "Marble pink");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 7), "Marble gray");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 8), "Marble light_gray");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 9), "Marble cyan");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 10), "Marble purple");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 11), "Marble blue");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 12), "Marble brown");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 13), "Marble green");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 14), "Marble red");
-				LanguageRegistry.addName(new ItemStack(CommonProxy.b_marble, 1, 15), "Marble black");*/
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 0), "Marble white");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 1), "Marble orange");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 2), "Marble magenta");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 3), "Marble light_blue");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 4), "Marble yellow");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 5), "Marble lime");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 6), "Marble pink");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 7), "Marble gray");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 8), "Marble light_gray");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 9), "Marble cyan");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 10), "Marble purple");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 11), "Marble blue");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 12), "Marble brown");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 13), "Marble green");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 14), "Marble red");
+				LanguageRegistry.addName(new ItemStack(b_marble, 1, 15), "Marble black");
 				
 				//tools
 				LanguageRegistry.addName(CommonProxy.t_mega_sword, "Mega Sword");

@@ -28,9 +28,11 @@ public class CommonProxy implements IGuiHandler
     //public static Block b_fir_log = (new FirLog(155)).setHardness(3F).setResistance(2.0F).setBlockName("b_fir_log");
     //public static Block b_fir_leaf = (new FirLeaf(156, 0)).setHardness(3F).setResistance(2.0F).setBlockName("b_fir_leaf");
     public static Block b_coal_furnace = (new coal_furnace(164, false)).setHardness(10F).setBlockName("b_coal_furnace");
+    public static Block b_coal_furnaceOn = (new coal_furnace(165, false)).setHardness(10F).setBlockName("b_coal_furnace");
     //public static Block b_coal_furnaceOn = (new coal_furnace(159, true)).setHardness(10F).setLightValue(0.875F).setBlockName("b_coal_furnaceON");
     /**blocks of energy**/
-    public static Block e_wire = (new wire(165, 10)).setHardness(3F).setResistance(20F).setBlockName("e_wire");
+    public static Block e_wire = (new wire(166, 10)).setHardness(3F).setResistance(20F).setBlockName("e_wire");
+    public static Block e_generator = (new generator(167, 11)).setHardness(3F).setResistance(20F).setBlockName("e_generator");
     
     //items
     public static Item i_platino_nugget = (new platino_nugget(5000)).setIconIndex(0).setTabToDisplayOn(CreativeTabs.tabMaterials).setItemName("t_platino_nugget");
@@ -57,7 +59,7 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerBlock(b_plutonio_ore);
 		GameRegistry.registerBlock(b_plutonio_block);
 		GameRegistry.registerBlock(b_marble_ore);
-		GameRegistry.registerBlock(b_marble);
+		GameRegistry.registerBlock(b_marble, marble_item.class);
 		GameRegistry.registerBlock(b_lightsensor);
 		GameRegistry.registerBlock(b_extra_sugar_canes);
 		//GameRegistry.registerBlock(b_magnetic_chest);
@@ -67,14 +69,14 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerBlock(b_mini_charge);
 		GameRegistry.registerBlock(b_coal_furnace);
 		GameRegistry.registerBlock(e_wire);
+		GameRegistry.registerBlock(e_generator);
 		//GameRegistry.registerBlock(b_fir_sapling);
 		//GameRegistry.registerBlock(b_fir_log);
 		//GameRegistry.registerBlock(b_fir_leaf);
 		GameRegistry.registerFuelHandler(new Fuels());
 		GameRegistry.registerWorldGenerator(new WorldGenerations());
 		GameRegistry.registerTileEntity(TileEntityCoalFurnace.class, "CoalFurnace");
-
-		//ModLoader.registerContainerID(cevicraft.ContainerCoalFurnace, CoalFurnaceGUIid);
+		ModLoader.registerContainerID(cevicraft.ContainerCoalFurnace, CoalFurnaceGUIid);
 		//GameRegistry.registerTileEntity(cevicraft.TileEntitymagnetic_chest.class, "Magnetic Chest");
 		
 		//crafteos*/
@@ -101,9 +103,11 @@ public class CommonProxy implements IGuiHandler
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) 
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if(tileEntity instanceof TileEntityCoalFurnace)
+        if(tileEntity != null)
         {
-                return new GuiCoalFurnace(player.inventory, (TileEntityCoalFurnace) tileEntity);
+        	switch(ID)
+			{
+			}
         }
         return null;
 	}
@@ -112,9 +116,11 @@ public class CommonProxy implements IGuiHandler
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) 
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if(tileEntity instanceof TileEntityCoalFurnace)
+        if(tileEntity != null)
         {
-                return new GuiCoalFurnace(player.inventory, (TileEntityCoalFurnace) tileEntity);
+        	switch(ID)
+			{
+			}
         }
         return null;
 	}

@@ -1,11 +1,10 @@
 package cevicraft;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
-import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.*;
+import cpw.mods.fml.common.Mod.*;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.network.*;
 import net.minecraft.client.*;
 import net.minecraft.src.BaseMod;
 
@@ -14,9 +13,12 @@ import net.minecraft.src.BaseMod;
 
 public class mod_cevi
 {
-	
 	@SidedProxy(clientSide = "cevicraft.ClientProxy", serverSide = "cevicraft.CommonProxy")
 	public static CommonProxy proxy;
+	public static coal_furnace coal_furnace;
+	@Instance
+	public static mod_cevi instance;
+	private int blockId;
 
 	public static class cevicraft
 	{
@@ -24,14 +26,17 @@ public class mod_cevi
 	}
 	
 	@Init
-	public void LoadFrom(FMLInitializationEvent event)
+	public void Load(FMLInitializationEvent event)
 	{
+		instance = this;
+		coal_furnace = new coal_furnace(this.blockId, false);
 		proxy.registerRenderInformation();
 		ClientProxy.registerRenderInformation();
+		NetworkRegistry.instance().registerGuiHandler(instance, this.proxy);
 	}
 
 	@PreInit
-	public void PreLoad(FMLInitializationEvent event)
+	public void PreLoad(FMLPreInitializationEvent event)
 	{
 	}
 }

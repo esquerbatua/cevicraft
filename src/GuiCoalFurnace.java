@@ -19,7 +19,7 @@ public class GuiCoalFurnace extends GuiContainer
     {
     	fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, (ySize - 96) + 2, 0xffffff);
     }
-
+    
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
     {
         int k = mc.renderEngine.getTexture("/cevi/Coalfurnace.png");

@@ -11,7 +11,7 @@ import cpw.mods.fml.common.asm.SideOnly;
 
 public class marble_item extends ItemBlock
 {
-	public marble_item(int par1, Block par2Block)
+	public marble_item(int par1)
 	{
 		super(par1);
 		this.setMaxDamage(0);

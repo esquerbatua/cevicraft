@@ -1,10 +1,11 @@
 package cevicraft;
 
 import net.minecraft.src.*;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class SlotCoalFurnace extends Slot
 {
-
+    /** The player that is using the GUI where this slot resides. */
     private EntityPlayer thePlayer;
     private int field_75228_b;
 
@@ -65,7 +66,7 @@ public class SlotCoalFurnace extends Slot
         if (!this.thePlayer.worldObj.isRemote)
         {
             int var2 = this.field_75228_b;
-            float var3 = RecipesCoalFurnace.smelting().getExperience(par1ItemStack.itemID);
+            float var3 = FurnaceRecipes.smelting().func_77601_c(par1ItemStack.itemID);
             int var4;
 
             if (var3 == 0.0F)
@@ -92,6 +93,19 @@ public class SlotCoalFurnace extends Slot
             }
         }
 
+
         this.field_75228_b = 0;
+
+        GameRegistry.onItemSmelted(thePlayer, par1ItemStack);
+
+        if (par1ItemStack.itemID == Item.ingotIron.shiftedIndex)
+        {
+            this.thePlayer.addStat(AchievementList.acquireIron, 1);
+        }
+
+        if (par1ItemStack.itemID == Item.fishCooked.shiftedIndex)
+        {
+            this.thePlayer.addStat(AchievementList.cookFish, 1);
+        }
     }
 }

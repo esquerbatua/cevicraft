@@ -2,7 +2,6 @@ package cevicraft;
 
 import net.minecraft.src.*;
 import java.util.*;
-
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 

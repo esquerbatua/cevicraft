@@ -1,41 +1,47 @@
 package cevicraft;
 
-import java.util.*;
-
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
+import java.util.Iterator;
 import net.minecraft.src.*;
 
 public class ContainerCoalFurnace extends Container
 {
+    private TileEntityCoalFurnace furnace;
+    private int lastCookTime = 0;
+    private int lastBurnTime = 0;
+    private int lastItemBurnTime = 0;
 
-	private TileEntityCoalFurnace CoalFurnace;
-    private int lastCookTime;
-    private int lastBurnTime;
-    private int lastItemBurnTime;
- 
     public ContainerCoalFurnace(InventoryPlayer par1InventoryPlayer, TileEntityCoalFurnace par2TileEntityCoalFurnace)
     {
-        lastCookTime = 0;
-        lastBurnTime = 0;
-        lastItemBurnTime = 0;
-        CoalFurnace = par2TileEntityCoalFurnace;
-        addSlotToContainer(new Slot(par2TileEntityCoalFurnace, 0, 90, 56));
-        addSlotToContainer(new Slot(par2TileEntityCoalFurnace, 1, 54, 56));
-        addSlotToContainer(new SlotCoalFurnace(par1InventoryPlayer.player, par2TileEntityCoalFurnace, 2, 51, 17));
- 
-        for (int i = 0; i < 3; i++)
+        this.furnace = par2TileEntityCoalFurnace;
+        this.addSlotToContainer(new Slot(par2TileEntityCoalFurnace, 0, 56, 17));
+        this.addSlotToContainer(new Slot(par2TileEntityCoalFurnace, 1, 56, 53));
+        this.addSlotToContainer(new SlotFurnace(par1InventoryPlayer.player, par2TileEntityCoalFurnace, 2, 116, 35));
+        int var3;
+
+        for (var3 = 0; var3 < 3; ++var3)
         {
-            for (int k = 0; k < 9; k++)
+            for (int var4 = 0; var4 < 9; ++var4)
             {
-            	addSlotToContainer(new Slot(par1InventoryPlayer, k + i * 9 + 9, 8 + k * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(par1InventoryPlayer, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
             }
         }
- 
-        for (int j = 0; j < 9; j++)
+
+        for (var3 = 0; var3 < 9; ++var3)
         {
-        	addSlotToContainer(new Slot(par1InventoryPlayer, j, 8 + j * 18, 142));
+            this.addSlotToContainer(new Slot(par1InventoryPlayer, var3, 8 + var3 * 18, 142));
         }
     }
- 
+
+    public void addCraftingToCrafters(ICrafting par1ICrafting)
+    {
+        super.addCraftingToCrafters(par1ICrafting);
+        par1ICrafting.updateCraftingInventoryInfo(this, 0, this.furnace.furnaceCookTime);
+        par1ICrafting.updateCraftingInventoryInfo(this, 1, this.furnace.furnaceBurnTime);
+        par1ICrafting.updateCraftingInventoryInfo(this, 2, this.furnace.currentItemBurnTime);
+    }
+
     /**
      * Updates crafting matrix; called from onCraftMatrixChanged. Args: none
      */
@@ -48,123 +54,123 @@ public class ContainerCoalFurnace extends Container
         {
             ICrafting var2 = (ICrafting)var1.next();
 
-            if (this.lastCookTime != this.CoalFurnace.CookTime)
+            if (this.lastCookTime != this.furnace.furnaceCookTime)
             {
-                var2.updateCraftingInventoryInfo(this, 0, this.CoalFurnace.CookTime);
+                var2.updateCraftingInventoryInfo(this, 0, this.furnace.furnaceCookTime);
             }
 
-            if (this.lastBurnTime != this.CoalFurnace.BurnTime)
+            if (this.lastBurnTime != this.furnace.furnaceBurnTime)
             {
-                var2.updateCraftingInventoryInfo(this, 1, this.CoalFurnace.BurnTime);
+                var2.updateCraftingInventoryInfo(this, 1, this.furnace.furnaceBurnTime);
             }
 
-            if (this.lastItemBurnTime != this.CoalFurnace.ItemBurnTime)
+            if (this.lastItemBurnTime != this.furnace.currentItemBurnTime)
             {
-                var2.updateCraftingInventoryInfo(this, 2, this.CoalFurnace.ItemBurnTime);
+                var2.updateCraftingInventoryInfo(this, 2, this.furnace.currentItemBurnTime);
             }
         }
-        this.lastCookTime = this.CoalFurnace.CookTime;
-        this.lastBurnTime = this.CoalFurnace.BurnTime;
-        this.lastItemBurnTime = this.CoalFurnace.ItemBurnTime;
+
+        this.lastCookTime = this.furnace.furnaceCookTime;
+        this.lastBurnTime = this.furnace.furnaceBurnTime;
+        this.lastItemBurnTime = this.furnace.currentItemBurnTime;
     }
-    
+
+    @SideOnly(Side.CLIENT)
     public void updateProgressBar(int par1, int par2)
     {
         if (par1 == 0)
         {
-        	CoalFurnace.CookTime = par2;
+            this.furnace.furnaceCookTime = par2;
         }
- 
+
         if (par1 == 1)
         {
-        	CoalFurnace.BurnTime = par2;
+            this.furnace.furnaceBurnTime = par2;
         }
- 
+
         if (par1 == 2)
         {
-        	CoalFurnace.ItemBurnTime = par2;
+            this.furnace.currentItemBurnTime = par2;
         }
     }
- 
+
     public boolean canInteractWith(EntityPlayer par1EntityPlayer)
     {
-        return CoalFurnace.isUseableByPlayer(par1EntityPlayer);
+        return this.furnace.isUseableByPlayer(par1EntityPlayer);
     }
- 
+
     /**
      * Called to transfer a stack from one inventory to the other eg. when shift clicking.
      */
     public ItemStack transferStackInSlot(int par1)
     {
-        ItemStack itemstack = null;
-        Slot slot = (Slot)inventorySlots.get(par1);
- 
-        if (slot != null && slot.getHasStack())
+        ItemStack var2 = null;
+        Slot var3 = (Slot)this.inventorySlots.get(par1);
+
+        if (var3 != null && var3.getHasStack())
         {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
- 
+            ItemStack var4 = var3.getStack();
+            var2 = var4.copy();
+
             if (par1 == 2)
             {
-                if (!mergeItemStack(itemstack1, 3, 39, true))
+                if (!this.mergeItemStack(var4, 3, 39, true))
                 {
                     return null;
                 }
- 
-                slot.onSlotChange(itemstack1, itemstack);
+
+                var3.onSlotChange(var4, var2);
             }
-            else if (par1 == 1 || par1 == 0)
+            else if (par1 != 1 && par1 != 0)
             {
-                if (!mergeItemStack(itemstack1, 3, 39, false))
+                if (FurnaceRecipes.smelting().getSmeltingResult(var4) != null)
+                {
+                    if (!this.mergeItemStack(var4, 0, 1, false))
+                    {
+                        return null;
+                    }
+                }
+                else if (TileEntityFurnace.isItemFuel(var4))
+                {
+                    if (!this.mergeItemStack(var4, 1, 2, false))
+                    {
+                        return null;
+                    }
+                }
+                else if (par1 >= 3 && par1 < 30)
+                {
+                    if (!this.mergeItemStack(var4, 30, 39, false))
+                    {
+                        return null;
+                    }
+                }
+                else if (par1 >= 30 && par1 < 39 && !this.mergeItemStack(var4, 3, 30, false))
                 {
                     return null;
                 }
             }
-            else if (RecipesCoalFurnace.smelting().getSmeltingResult(itemstack1.getItem().shiftedIndex) != null)
-            {
-                if (!mergeItemStack(itemstack1, 0, 1, false))
-                {
-                    return null;
-                }
-            }
-            else if (TileEntityCoalFurnace.isItemFuel(itemstack1))
-            {
-                if (!mergeItemStack(itemstack1, 1, 2, false))
-                {
-                    return null;
-                }
-            }
-            else if (par1 >= 3 && par1 < 30)
-            {
-                if (!mergeItemStack(itemstack1, 30, 39, false))
-                {
-                    return null;
-                }
-            }
-            else if (par1 >= 30 && par1 < 39 && !mergeItemStack(itemstack1, 3, 30, false))
+            else if (!this.mergeItemStack(var4, 3, 39, false))
             {
                 return null;
             }
- 
-            if (itemstack1.stackSize == 0)
+
+            if (var4.stackSize == 0)
             {
-                slot.putStack(null);
+                var3.putStack((ItemStack)null);
             }
             else
             {
-                slot.onSlotChanged();
+                var3.onSlotChanged();
             }
- 
-            if (itemstack1.stackSize != itemstack.stackSize)
-            {
-                slot.onPickupFromSlot(itemstack1);
-            }
-            else
+
+            if (var4.stackSize == var2.stackSize)
             {
                 return null;
             }
+
+            var3.onPickupFromSlot(var4);
         }
- 
-        return itemstack;
+
+        return var2;
     }
 }

@@ -17,7 +17,7 @@ public class ContainerCoalFurnace extends Container
         this.furnace = par2TileEntityCoalFurnace;
         this.addSlotToContainer(new Slot(par2TileEntityCoalFurnace, 0, 56, 17));
         this.addSlotToContainer(new Slot(par2TileEntityCoalFurnace, 1, 56, 53));
-        this.addSlotToContainer(new SlotFurnace(par1InventoryPlayer.player, par2TileEntityCoalFurnace, 2, 116, 35));
+        this.addSlotToContainer(new SlotCoalFurnace(par1InventoryPlayer.player, par2TileEntityCoalFurnace, 2, 116, 35));
         int var3;
 
         for (var3 = 0; var3 < 3; ++var3)
@@ -42,9 +42,6 @@ public class ContainerCoalFurnace extends Container
         par1ICrafting.updateCraftingInventoryInfo(this, 2, this.furnace.currentItemBurnTime);
     }
 
-    /**
-     * Updates crafting matrix; called from onCraftMatrixChanged. Args: none
-     */
     public void updateCraftingResults()
     {
         super.updateCraftingResults();
@@ -99,9 +96,6 @@ public class ContainerCoalFurnace extends Container
         return this.furnace.isUseableByPlayer(par1EntityPlayer);
     }
 
-    /**
-     * Called to transfer a stack from one inventory to the other eg. when shift clicking.
-     */
     public ItemStack transferStackInSlot(int par1)
     {
         ItemStack var2 = null;

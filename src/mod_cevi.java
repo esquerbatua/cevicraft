@@ -15,7 +15,7 @@ public class mod_cevi
 {
 	@SidedProxy(clientSide = "cevicraft.ClientProxy", serverSide = "cevicraft.CommonProxy")
 	public static CommonProxy proxy;
-	public static coal_furnace coal_furnace;
+	//public static coal_furnace coal_furnace;
 	@Instance
 	public static mod_cevi instance;
 	private int blockId;
@@ -29,10 +29,10 @@ public class mod_cevi
 	public void Load(FMLInitializationEvent event)
 	{
 		instance = this;
-		coal_furnace = new coal_furnace(this.blockId, false);
+		//coal_furnace = new coal_furnace(this.blockId, false);
 		proxy.registerRenderInformation();
 		ClientProxy.registerRenderInformation();
-		NetworkRegistry.instance().registerGuiHandler(instance, this.proxy);
+		//NetworkRegistry.instance().registerGuiHandler(instance, this.proxy);
 	}
 
 	@PreInit

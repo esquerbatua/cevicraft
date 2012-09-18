@@ -30,7 +30,10 @@ public class ClientProxy extends CommonProxy
 				LanguageRegistry.addName(CommonProxy.b_water_vapor, "Water vapor");
 				LanguageRegistry.addName(CommonProxy.b_enriched_tnt, "Enriched TNT");
 				LanguageRegistry.addName(CommonProxy.b_mini_charge, "Mini charge");
+				LanguageRegistry.addName(CommonProxy.b_fast_sand, "Fast Sand");
+				LanguageRegistry.addName(CommonProxy.b_jump_sand, "Jump Sand");
 				LanguageRegistry.addName(CommonProxy.b_coal_furnace, "Coal Furnace");
+				LanguageRegistry.addName(CommonProxy.b_coal_furnaceOn, "Coal Furnace");
 				LanguageRegistry.addName(CommonProxy.e_wire, "Wire");
 				
 				//items

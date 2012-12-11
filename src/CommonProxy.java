@@ -28,7 +28,6 @@ public class CommonProxy implements IGuiHandler
     public static Block b_marble = (new marble(161)).setHardness(4F).setResistance(10F).setBlockName("b_marble");
     public static Block b_enriched_tnt = (new EnrichedTNT(162, 11)).setBlockName("b_enriched_tnt");
     public static Block b_fast_sand = (new fast_sand(163, 8)).setBlockName("b_fast_sand");
-    public static Block b_fast_sand_directional = (new fast_sand_directional(164, 9)).setBlockName("b_fast_sand_directional");
     public static Block b_jump_sand = (new jump_sand(165, 10)).setBlockName("b_jump_sand");
     public static Block b_multi_id1 = (new multi_id1(166)).setHardness(4F).setResistance(10F).setBlockName("b_multi_id1");
 

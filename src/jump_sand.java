@@ -8,8 +8,8 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class jump_sand extends Block
 {
-	double Y1 = 0.95;
-	double Y = 0.05;
+	double i;
+	double Y1 = 1.2;
     public jump_sand(int par1, int par2)
     {
         super(par1, Material.sand);
@@ -25,62 +25,7 @@ public class jump_sand extends Block
 
     public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
     {
-        par5Entity.motionY /= Y1;
-        par5Entity.motionY += Y;
-    }
-    
-    public void onBlockAdded(World par1World, int x, int y, int z)
-    {
-    	super.onBlockAdded(par1World, x, y, z);
-
-    	while(par1World.getBlockId(x+1, y, z) == CommonProxy.b_jump_sand.blockID)
-    	{
-    		Y1 += 0.007;
-    		Y -= 0.005;
-    		break;
-    	}
-    	while(par1World.getBlockId(x-1, y, z) == CommonProxy.b_jump_sand.blockID)
-    	{
-    		Y1 += 0.007;
-    		Y -= 0.005;
-    		break;
-    	}
-    	while(par1World.getBlockId(x, y, z+1) == CommonProxy.b_jump_sand.blockID)
-    	{
-    		Y1 += 0.007;
-    		Y -= 0.005;
-    		break;
-    	}
-    	while(par1World.getBlockId(x-1, y, z-1) == CommonProxy.b_jump_sand.blockID)
-    	{
-    		Y1 += 0.007;
-    		Y -= 0.005;
-    		break;
-    	}
-    	while(par1World.getBlockId(x+1, y, z+1) == CommonProxy.b_jump_sand.blockID)
-    	{
-    		Y1 += 0.007;
-    		Y -= 0.005;
-    		break;
-    	}
-    	while(par1World.getBlockId(x-1, y, z-1) == CommonProxy.b_jump_sand.blockID)
-    	{
-    		Y1 += 0.007;
-    		Y -= 0.005;
-    		break;
-    	}
-    	while(par1World.getBlockId(x-1, y, z+1) == CommonProxy.b_jump_sand.blockID)
-    	{
-    		Y1 += 0.007;
-    		Y -= 0.005;
-    		break;
-    	}
-    	while(par1World.getBlockId(x+1, y, z-1) == CommonProxy.b_jump_sand.blockID)
-    	{
-    		Y1 += 0.007;
-    		Y -= 0.005;
-    		break;
-    	}
+        par5Entity.motionY *= Y1;
     }
 
     public boolean renderAsNormalBlock()

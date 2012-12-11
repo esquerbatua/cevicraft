@@ -152,6 +152,11 @@ public class sensor_of_light extends Block
         return 0;
     }
 
+    public void addCreativeItems(ArrayList itemList)
+    {
+    itemList.add(new ItemStack(this));
+    }
+
     @SideOnly(Side.CLIENT)
     public String getTextureFile()
     {

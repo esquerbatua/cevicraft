@@ -24,13 +24,11 @@ public class CommonProxy implements IGuiHandler
     public static Block b_normal_house = (new normal_house(161)).setHardness(4F).setResistance(150F).setBlockName("b_normal_house");
     public static Block b_marble = (new marble(162)).setHardness(4F).setResistance(10F).setBlockName("b_marble");
     public static Block b_enriched_tnt = (new EnrichedTNT(163, 9)).setBlockName("b_enriched_tnt");
-    public static Block b_fast_sand = (new fast_sand(164, 9)).setBlockName("b_fast_sand");
-    public static Block b_jump_sand = (new jump_sand(165, 9)).setBlockName("b_jump_sand");
     //public static Block b_fir_sapling = (new FirSapling(154, 0)).setHardness(3F).setResistance(1.0F).setBlockName("b_fir_sapling");
     //public static Block b_fir_log = (new FirLog(155)).setHardness(3F).setResistance(2.0F).setBlockName("b_fir_log");
     //public static Block b_fir_leaf = (new FirLeaf(156, 0)).setHardness(3F).setResistance(2.0F).setBlockName("b_fir_leaf");
-    public static Block b_coal_furnace = (new coal_furnace(168, false)).setHardness(10F).setBlockName("b_coal_furnace");
-    public static Block b_coal_furnaceOn = (new coal_furnace(169, false)).setHardness(10F).setBlockName("b_coal_furnaceOn");
+    public static Block b_coal_furnace = (new coal_furnace(164, false)).setHardness(10F).setBlockName("b_coal_furnace");
+    public static Block b_coal_furnaceOn = (new coal_furnace(165, false)).setHardness(10F).setBlockName("b_coal_furnace");
     //public static Block b_coal_furnaceOn = (new coal_furnace(159, true)).setHardness(10F).setLightValue(0.875F).setBlockName("b_coal_furnaceON");
     /**blocks of energy**/
     public static Block e_wire = (new wire(166, 10)).setHardness(3F).setResistance(20F).setBlockName("e_wire");
@@ -69,10 +67,7 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerBlock(b_water_vapor);
 		GameRegistry.registerBlock(b_enriched_tnt);
 		GameRegistry.registerBlock(b_mini_charge);
-		GameRegistry.registerBlock(b_fast_sand);
-		GameRegistry.registerBlock(b_jump_sand);
 		GameRegistry.registerBlock(b_coal_furnace);
-		GameRegistry.registerBlock(b_coal_furnaceOn);
 		GameRegistry.registerBlock(e_wire);
 		GameRegistry.registerBlock(e_generator);
 		//GameRegistry.registerBlock(b_fir_sapling);
@@ -81,7 +76,7 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerFuelHandler(new Fuels());
 		GameRegistry.registerWorldGenerator(new WorldGenerations());
 		GameRegistry.registerTileEntity(TileEntityCoalFurnace.class, "CoalFurnace");
-		//ModLoader.registerContainerID(cevicraft.ContainerCoalFurnace, CoalFurnaceGUIid);
+		ModLoader.registerContainerID(cevicraft.ContainerCoalFurnace, CoalFurnaceGUIid);
 		//GameRegistry.registerTileEntity(cevicraft.TileEntitymagnetic_chest.class, "Magnetic Chest");
 		
 		//crafteos*/
@@ -112,7 +107,6 @@ public class CommonProxy implements IGuiHandler
         {
         	switch(ID)
 			{
-				case 0: return new ContainerCoalFurnace(player.inventory, ((TileEntityCoalFurnace)tileEntity));
 			}
         }
         return null;
@@ -126,7 +120,6 @@ public class CommonProxy implements IGuiHandler
         {
         	switch(ID)
 			{
-				case 0: return new ContainerCoalFurnace(player.inventory, ((TileEntityCoalFurnace)tileEntity));
 			}
         }
         return null;
@@ -156,4 +149,5 @@ public class CommonProxy implements IGuiHandler
 		default: return null;
 		}
 	}
+
 }

@@ -22,7 +22,7 @@ public class GuiCoalFurnace extends GuiContainer
     
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
     {
-        int k = mc.renderEngine.getTexture("/cevicraft/Coalfurnace.png");
+        int k = mc.renderEngine.getTexture("/cevi/Coalfurnace.png");
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(k);
         int l = (width - xSize) / 2;

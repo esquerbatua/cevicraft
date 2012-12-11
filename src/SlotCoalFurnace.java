@@ -66,7 +66,7 @@ public class SlotCoalFurnace extends Slot
         if (!this.thePlayer.worldObj.isRemote)
         {
             int var2 = this.field_75228_b;
-            float var3 = RecipesCoalFurnace.smelting().func_77601_c(par1ItemStack.itemID);
+            float var3 = FurnaceRecipes.smelting().func_77601_c(par1ItemStack.itemID);
             int var4;
 
             if (var3 == 0.0F)

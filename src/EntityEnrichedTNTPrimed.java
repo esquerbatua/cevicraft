@@ -79,7 +79,7 @@ public class EntityEnrichedTNTPrimed extends Entity
     private void explode()
     {
         float var1 = 7F;
-        this.worldObj.createExplosion((Entity)null, this.posX, this.posY, this.posZ, var1);
+        this.worldObj.createExplosion((Entity)null, this.posX, this.posY, this.posZ, var1, true);
     }
 
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)

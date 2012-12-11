@@ -21,7 +21,7 @@ public class ItemPickaxeplatino extends ItemToolcevi
     	if(block == CommonProxy.b_plutonio_block)
             return toolMaterial.getHarvestLevel() == 3;
     	if(block == CommonProxy.b_plutonio_ore)
-            return toolMaterial.getHarvestLevel() == 2.5;
+            return toolMaterial.getHarvestLevel() == 2;
     	if(block == CommonProxy.b_normal_house || block == CommonProxy.b_coal_block || block == CommonProxy.b_platino_ore || block == CommonProxy.b_platino_block || block == CommonProxy.b_marble_ore || block == CommonProxy.b_marble)
             return toolMaterial.getHarvestLevel() == 1;
 	//blocks minecraft

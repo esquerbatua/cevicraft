@@ -1,6 +1,9 @@
 package cevicraft;
 
 import java.util.*;
+
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 import net.minecraft.src.*;
 
 public class EnrichedTNT extends Block
@@ -76,5 +79,11 @@ public class EnrichedTNT extends Block
     protected ItemStack createStackedBlock(int par1)
     {
         return null;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public String getTextureFile()
+    {
+        return "/cevicraft/blocks.png";
     }
 }

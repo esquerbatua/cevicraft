@@ -20,7 +20,7 @@ public class sensor_of_light extends Block
 
     public int tickRate()
     {
-        return 30;
+        return 1;
     }
 
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int i, int j, int k)
@@ -42,26 +42,6 @@ public class sensor_of_light extends Block
     {
         return world.isBlockNormalCube(i, j - 1, k) || world.getBlockId(i, j - 1, k) == Block.fence.blockID;
     }
-
-    public void onBlockAdded(World world, int i, int j, int k)
-    {
-    }
-
-    /*public void onNeighborBlockChange(World world, int i, int j, int k, int l)
-    {
-        boolean flag = false;
-
-        if (!world.isBlockNormalCube(i, j - 1, k) && world.getBlockId(i, j - 1, k) != Block.fence.blockID)
-        {
-            flag = true;
-        }
-
-        if (flag)
-        {
-            dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
-            world.setBlockWithNotify(i, j, k, 0);
-        }
-    }*/
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
@@ -95,7 +75,6 @@ public class sensor_of_light extends Block
             world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
             world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
             world.notifyBlocksOfNeighborChange(i + 1, j, k + 1, blockID);
-            world.markBlocksDirty(i, j, k, i, j, k);
             world.playSoundEffect((double)i + 0.5D, (double)j + 0.10000000000000001D, (double)k + 0.5D, "random.click", 0.3F, 0.6F);
         }
 
@@ -107,7 +86,6 @@ public class sensor_of_light extends Block
             world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
             world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
             world.notifyBlocksOfNeighborChange(i + 1, j, k + 1, blockID);
-            world.markBlocksDirty(i, j, k, i, j, k);
             world.playSoundEffect((double)i + 0.5D, (double)j + 0.10000000000000001D, (double)k + 0.5D, "random.click", 0.3F, 0.5F);
         }
 
@@ -150,11 +128,6 @@ public class sensor_of_light extends Block
     public int getMobilityFlag()
     {
         return 0;
-    }
-
-    public void addCreativeItems(ArrayList itemList)
-    {
-    itemList.add(new ItemStack(this));
     }
 
     @SideOnly(Side.CLIENT)

@@ -1,91 +1,40 @@
 package cevicraft;
 
-import java.util.*;
+import static net.minecraftforge.common.ForgeDirection.*;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 import net.minecraft.src.*;
 import net.minecraftforge.common.ForgeDirection;
-import static net.minecraftforge.common.ForgeDirection.*;
 
-public class mini_charge extends Block
+public class fast_sand extends Block
 {
-
-    public mini_charge(int par1, int par2)
+    public fast_sand(int par1, int par2)
     {
-        super(par1, par2, Material.tnt);
-        this.setCreativeTab(CreativeTabs.tabRedstone);
+        super(par1, Material.sand);
+        this.setCreativeTab(CreativeTabs.tabBlock);
+        this.blockIndexInTexture = par2;
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
     }
 
-    public void onBlockAdded(World par1World, int par2, int par3, int par4)
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        super.onBlockAdded(par1World, par2, par3, par4);
-        if(par1World.isBlockIndirectlyGettingPowered(par2, par3, par4))
-        {
-            onBlockDestroyedByPlayer(par1World, par2, par3, par4, 1);
-            par1World.setBlockWithNotify(par2, par3, par4, 0);
-        }
+        float var5 = 0.125F;
+        return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double)par2, (double)par3, (double)par4, (double)(par2 - 0), (double)((float)(par3 + 0) - var5), (double)(par4 + 0));
     }
 
-    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+    public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
     {
-        if(par5 > 0 && Block.blocksList[par5].canProvidePower() && par1World.isBlockIndirectlyGettingPowered(par2, par3, par4))
-        {
-            onBlockDestroyedByPlayer(par1World, par2, par3, par4, 1);
-            par1World.setBlockWithNotify(par2, par3, par4, 0);
-        }
+        par5Entity.motionX /= 0.85D;
+        par5Entity.motionY /= 0.9D;
+        par5Entity.motionZ /= 0.85D;
     }
 
-    public int quantityDropped(Random par1Random)
-    {
-        return 1;
-    }
-
-    public void onBlockDestroyedByExplosion(World par1World, int par2, int par3, int par4)
-    {
-        if (!par1World.isRemote)
-        {
-        	Entitymini_chargePrimed var5 = new Entitymini_chargePrimed(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F));
-            var5.fuse = par1World.rand.nextInt(var5.fuse / 64) + var5.fuse / 128;
-            par1World.spawnEntityInWorld(var5);
-        }
-    }
-    
-    public void onBlockDestroyedByPlayer(World par1World, int par2, int par3, int par4, int par5)
-    {
-        if (!par1World.isRemote)
-        {
-            if ((par5 & 1) == 1)
-            {
-            	Entitymini_chargePrimed var6 = new Entitymini_chargePrimed(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F));
-                par1World.spawnEntityInWorld(var6);
-                par1World.playSoundAtEntity(var6, "random.fuse", 1.0F, 1.0F);
-            }
-        }
-    }
-
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-    {
-        if (par5EntityPlayer.getCurrentEquippedItem() != null && par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
-        {
-            this.onBlockDestroyedByPlayer(par1World, par2, par3, par4, 1);
-            par1World.setBlockWithNotify(par2, par3, par4, 0);
-            return true;
-        }
-        else
-        {
-            return super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
-        }
-    }
-
-    protected ItemStack createStackedBlock(int par1)
-    {
-        return null;
-    }
-
-    public boolean isOpaqueCube()
+    public boolean renderAsNormalBlock()
     {
         return false;
     }
 
-    public boolean renderAsNormalBlock()
+    public boolean isOpaqueCube()
     {
         return false;
     }
@@ -174,36 +123,33 @@ public class mini_charge extends Block
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
         int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 7;
-        float var6 = 0.1875F;
 
         if (var5 == 1)
         {
-            this.setBlockBounds(0.0F, 0.2F, 0.5F - var6, var6 * 2.0F, 0.8F, 0.5F + var6);
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.125F, 1.0F, 1.0F);
         }
         else if (var5 == 2)
         {
-            this.setBlockBounds(1.0F - var6 * 2.0F, 0.2F, 0.5F - var6, 1.0F, 0.8F, 0.5F + var6);
+            this.setBlockBounds(0.875F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         }
         else if (var5 == 3)
         {
-            this.setBlockBounds(0.5F - var6, 0.2F, 0.0F, 0.5F + var6, 0.8F, var6 * 2.0F);
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.125F);
         }
         else if (var5 == 4)
         {
-            this.setBlockBounds(0.5F - var6, 0.2F, 1.0F - var6 * 2.0F, 0.5F + var6, 0.8F, 1.0F);
+            this.setBlockBounds(0.0F, 0.0F, 0.875F, 1.0F, 1.0F, 1.0F);
         }
         else if (var5 != 5 && var5 != 6)
         {
             if (var5 == 0 || var5 == 7)
             {
-                var6 = 0.25F;
-                this.setBlockBounds(0.5F - var6, 0.4F, 0.5F - var6, 0.5F + var6, 1.0F, 0.5F + var6);
+                this.setBlockBounds(0.0F, 0.875F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
         }
         else
         {
-            var6 = 0.25F;
-            this.setBlockBounds(0.5F - var6, 0.0F, 0.5F - var6, 0.5F + var6, 0.6F, 0.5F + var6);
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
         }
     }
 
@@ -245,8 +191,9 @@ public class mini_charge extends Block
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
     }
 
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+    @SideOnly(Side.CLIENT)
+    public String getTextureFile()
     {
-        return null;
+        return "/cevicraft/blocks.png";
     }
 }

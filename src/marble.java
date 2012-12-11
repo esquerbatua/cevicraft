@@ -7,86 +7,60 @@ import net.minecraft.src.*;
 
 public class marble extends Block
 {
+	//public static final String[] Names = new String[] {"Marble White", "Marble Orange", "Marble Orange", "Marble Light Blue", "Marble Yellow", "Marble Lime", "Marble Pink", "Marble Gray", "Marble Light Gray", "Marble Cyan", "Marble Purple", "Marble Blue", "Marble Brown", "Marble Green", "Marble Red", "Marble Black"};
+	
 	int  Marble = 0, orange = 1, magenta = 2, light_blue = 3, yellow = 4, lime = 5, pink = 6, gray = 7, light_gray = 8, cyan = 9, purple = 10, blue = 11, brown = 12, green = 13, red = 14, black = 15;
-
-	/*private String[] marble_names =  new String[]
-	{
-		"orange", "mageta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black", "white"
-	};
-
-	public String getItemNameIS(ItemStack itemstack)
-    {
-            return marble_names[itemstack.getItemDamage()];
-    }*/
 
     public marble(int i)
     {
-        super(i, 16, Material.rock);
-        this.setCreativeTab(CreativeTabs.tabDeco);
-        /*this.orange = orange;
-        this.magenta = magenta;
-        this.light_blue = light_blue;
-        this.yellow = yellow;
-        this.lime = lime;
-        this.pink = pink;
-        this.gray = gray;
-        this.light_gray = light_gray;
-        this.cyan = cyan;
-        this.purple = purple;
-        this.blue = blue;
-        this.brown = brown;
-        this.green = green;
-        this.red = red;
-        this.black = black;
-        this.white = white;*/
+        super(i, Material.rock);
+        this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
     public int getBlockTextureFromSideAndMetadata(int i, int j)
 	{
-	        switch (j)
-	    {
-	        default:
-	        	return 0;
-	        case 0:
-	        	return Marble;
-	        case 1:
-				return orange;
-	        case 2:
-	        	return magenta;
-	        case 3:
-	        	return light_blue;
-	        case 4:
-	        	return yellow;
-	        case 5:
-	        	return lime;
-	        case 6:
-	        	return pink;
-	        case 7:
-	        	return gray;
-	        case 8:
-	        	return light_gray;
-	        case 9:
-	        	return cyan;
-	        case 10:
-	        	return purple;
-	        case 11:
-	        	return blue;
-	        case 12:
-	        	return brown;
-	        case 13:
-	        	return green;
-	        case 14:
-	        	return red;
-	        case 15:
-	        	return black;
-	    }
+        switch(j)
+        {
+        case 0:
+        	return 0;
+        case 1:
+			return 1;
+        case 2:
+        	return 2;
+        case 3:
+        	return 3;
+        case 4:
+        	return 4;
+        case 5:
+        	return 5;
+        case 6:
+        	return 6;
+        case 7:
+        	return 7;
+        case 8:
+        	return 8;
+        case 9:
+        	return 9;
+        case 10:
+        	return 10;
+        case 11:
+        	return 11;
+        case 12:
+        	return 12;
+        case 13:
+        	return 13;
+        case 14:
+        	return 14;
+        case 15:
+        	return 15;
+        case 16:
+        	return 16;
+        case 17:
+        	return 17;
+        }
+        return j;
 	}
 
-    protected int damageDropped(int i)
-    {
-    	return i;
-    }
-    
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
@@ -106,13 +80,23 @@ public class marble extends Block
         par3List.add(new ItemStack(par1, 1, 13));
         par3List.add(new ItemStack(par1, 1, 14));
         par3List.add(new ItemStack(par1, 1, 15));
+        par3List.add(new ItemStack(par1, 1, 16));
+        par3List.add(new ItemStack(par1, 1, 17));
     }
+
+    public int idDropped(int i)
+    {
+    	return blockID;
+    }
+
+	public int getPlacedBlockMetadata(int i)
+	{
+		return i;
+	}
 
     @SideOnly(Side.CLIENT)
     public String getTextureFile()
     {
         return "/cevicraft/marble.png";
     }
-    /*orange, magenta, light_blue, yellow, lime, pink, gray, light_gray, cyan, purple, blue, brown, green, red, black, white,*/
-    //int orange, int magenta, int light_blue, int yellow, int lime, int pink, int gray, int light_gray, int cyan, int purple, int blue, int brown, int green, int red, int black, int white,*/
 }

@@ -5,7 +5,7 @@ public enum EnumToolcevi
     WOOD(0, 59, 2.0F, 0, 15),
     STONE(1, 131, 4F, 1, 5),
     IRON(2, 250, 6F, 2, 14),
-    PLATINO(3, 500, 8F, 6, 16),
+    PLATINO(2, 500, 8F, 3, 15),
     EMERALD(3, 1561, 8F, 3, 10),
     GOLD(0, 32, 12F, 0, 22),
     CEVI(5, 100, 10000F, 10000, 10);

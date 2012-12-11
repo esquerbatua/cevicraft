@@ -27,7 +27,7 @@ public class Entitymini_chargePrimed extends Entity
         this.motionX = (double)(-((float)Math.sin((double)var8)) * 0.02F);
         this.motionY = 0.20000000298023224D;
         this.motionZ = (double)(-((float)Math.cos((double)var8)) * 0.02F);
-        this.fuse = 100;
+        this.fuse = 150;
         this.prevPosX = par2;
         this.prevPosY = par4;
         this.prevPosZ = par6;
@@ -79,8 +79,8 @@ public class Entitymini_chargePrimed extends Entity
 
     private void explode()
     {
-        float var1 = 0.6F;
-        this.worldObj.createExplosion((Entity)null, this.posX, this.posY, this.posZ, var1);
+        float var1 = 0.9F;
+        this.worldObj.createExplosion((Entity)null, this.posX, this.posY, this.posZ, var1, true);
     }
 
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
